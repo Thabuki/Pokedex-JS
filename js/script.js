@@ -31,8 +31,18 @@ const renderPokemon = async (pokemon) => {
         pokemonImage.style.display = 'block';
         pokemonName.innerHTML = data.name;
         pokemonNumber.innerHTML = data.id;
-        pokemonImage.src = data['sprites']['versions']['generation-v']['black-white']['animated']['front_default'];
-        pokemonImageShiny.src = data['sprites']['versions']['generation-v']['black-white']['animated']['front_shiny'];
+        
+        // Guarda ambas URLs das versões normal e shiny do sprite
+        const normalSprite = data['sprites']['versions']['generation-v']['black-white']['animated']['front_default'];
+        const shinySprite = data['sprites']['versions']['generation-v']['black-white']['animated']['front_shiny'];
+        
+        // Estabelece o sprite normal como padrão
+        pokemonImage.src = normalSprite;
+        
+        // Guarda ambas as URLs em atributos de dados para toggle
+        pokemonImage.dataset.normalSprite = normalSprite;
+        pokemonImage.dataset.shinySprite = shinySprite;
+        pokemonImage.dataset.isShiny = 'false'; // Estado atual do sprite, se shiny ou não
 
         input.value = '';
     } else {
@@ -43,7 +53,7 @@ const renderPokemon = async (pokemon) => {
 }
 
 const playPokemonCry = async () => {
-    // Get the current Pokemon ID from the displayed number
+    // Pega o ID do Pokémon atual a partir do número exibido
     const currentPokemonId = pokemonNumber.innerHTML;
     
     if (currentPokemonId) {
@@ -52,7 +62,7 @@ const playPokemonCry = async () => {
 
         if (cryUrl) {
             const audio = new Audio(cryUrl);
-            audio.volume = 0.5; // Set volume to 50%
+            audio.volume = 0.25; // Coloca o volume em 25%; os cries são MUITO altos
             audio.play().catch(error => {
                 console.log('Could not play Pokemon cry:', error);
             });
@@ -78,6 +88,22 @@ btnNext.addEventListener('click', () => {
 });
 
 pokemonImage.addEventListener('click', () => {
+    // Toggle entre os sprites normal e shiny
+    const isCurrentlyShiny = pokemonImage.dataset.isShiny === 'true';
+    const normalSprite = pokemonImage.dataset.normalSprite;
+    const shinySprite = pokemonImage.dataset.shinySprite;
+    
+    if (isCurrentlyShiny) {
+        // Troca para o sprite normal
+        pokemonImage.src = normalSprite;
+        pokemonImage.dataset.isShiny = 'false';
+    } else {
+        // Troca para o sprite shiny
+        pokemonImage.src = shinySprite;
+        pokemonImage.dataset.isShiny = 'true';
+    }
+
+    // Também toca o grito do Pokémon
     playPokemonCry();
 });
 
