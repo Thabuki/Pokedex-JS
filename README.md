@@ -22,9 +22,13 @@ This project was created by following this tutorial:
 - JavaScript (ES6+)
 - [PokéAPI](https://pokeapi.co/) for Pokémon data and audio
 
+## 🌐 Live Demo
+
+**[Try the Pokédex here!](https://thabuki.github.io/Pokedex-JS/)**
+
 ## How to Use
 
-1. Open `index.html` in your web browser
+1. Open `index.html` in your web browser (or visit the live demo above)
 2. Search for a Pokémon by typing their name or number
 3. Use the Previous/Next buttons to browse through Pokémon
 4. Click on the Pokémon image to hear their cry and see their shiny form!
